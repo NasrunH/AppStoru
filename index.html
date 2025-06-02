@@ -19,26 +19,24 @@
     <!-- Manifest -->
     <link rel="manifest" href="/manifest.json">
     
-    <!-- Icons - Updated paths -->
-    <link rel="icon" type="image/png" href="/images/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/images/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/images/favicon-16x16.png" sizes="16x16">
+    <!-- Icons - Corrected paths -->
+    <link rel="icon" type="image/png" href="/icon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/icon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/icon-72x72.png" sizes="72x72">
     
     <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/images/apple-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/images/apple-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/images/apple-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/images/apple-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/images/apple-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/images/apple-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/images/apple-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/images/apple-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-icon-180x180.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="96x96" href="/icon-96x96.png">
+    <link rel="apple-touch-icon" sizes="128x128" href="/icon-128x128.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="384x384" href="/icon-384x384.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png">
     
     <!-- Microsoft Tiles -->
     <meta name="msapplication-TileColor" content="#667eea">
-    <meta name="msapplication-TileImage" content="/images/ms-icon-144x144.png">
-    <meta name="msapplication-config" content="/images/browserconfig.xml">
+    <meta name="msapplication-TileImage" content="/icon-144x144.png">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="/src/styles/main.css" as="style">
@@ -85,6 +83,38 @@
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 1rem;
+        }
+        
+        /* Logo styles */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-decoration: none;
+            color: white;
+        }
+        
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.1);
         }
         
         /* Loading animation */
@@ -154,8 +184,18 @@
         <header class="header">
             <div class="container">
                 <div class="logo">
-                    <img src="/images/android-icon-192x192.png" alt="Story App" class="logo-img" 
-                         onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
+                    <!-- Corrected logo path -->
+                    <img 
+                        src="/icon-192x192.png" 
+                        alt="Story App" 
+                        class="logo-img"
+                        onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+                        onload="this.nextElementSibling.style.display='none';"
+                    >
+                    <!-- Fallback icon -->
+                    <div class="logo-icon" style="display: none;">
+                        📖
+                    </div>
                     <span class="logo-text">Story App</span>
                 </div>
                 <nav class="nav">
@@ -252,6 +292,43 @@
     
     <!-- Service Worker Registration (Fallback) -->
     <script>
+        // Logo fallback handler with correct paths
+        function setupLogoFallback() {
+            const logoImg = document.querySelector('.logo-img');
+            const logoIcon = document.querySelector('.logo-icon');
+            
+            if (logoImg && logoIcon) {
+                // Try alternative paths in public folder
+                const altPaths = [
+                    '/icon-192x192.png',
+                    '/icon-144x144.png',
+                    '/icon-128x128.png',
+                    '/icon-96x96.png',
+                    '/icon-72x72.png'
+                ];
+                
+                let currentIndex = 0;
+                
+                function tryNextPath() {
+                    if (currentIndex < altPaths.length) {
+                        logoImg.src = altPaths[currentIndex];
+                        currentIndex++;
+                    } else {
+                        // All paths failed, show emoji icon
+                        logoImg.style.display = 'none';
+                        logoIcon.style.display = 'flex';
+                    }
+                }
+                
+                logoImg.onerror = tryNextPath;
+                
+                // Initial load attempt
+                if (!logoImg.complete || logoImg.naturalWidth === 0) {
+                    tryNextPath();
+                }
+            }
+        }
+        
         // Hide initial loading and show app content when JS loads
         document.addEventListener('DOMContentLoaded', function() {
             const initialLoading = document.getElementById('initial-loading');
@@ -266,6 +343,9 @@
             jsHiddenElements.forEach(element => {
                 element.classList.remove('js-hidden');
             });
+            
+            // Setup logo fallback
+            setupLogoFallback();
         });
         
         // Error boundary
