@@ -29,7 +29,6 @@ export class AddStoryView {
                   id="story-photo" 
                   accept="image/*" 
                   style="display: none;"
-                  required
                 >
                 <div class="photo-input-buttons">
                   <button type="button" id="camera-btn" class="btn btn-secondary">

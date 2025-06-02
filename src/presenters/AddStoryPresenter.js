@@ -81,10 +81,6 @@ export class AddStoryPresenter {
     })
 
     // Map controls
-    closeMapBtn?.addEventListener("click", () => {
-      this.hideLocationMap()
-    })
-
     useCurrentLocationBtn?.addEventListener("click", () => {
       this.getCurrentLocation()
     })

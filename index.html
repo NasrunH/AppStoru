@@ -17,14 +17,14 @@
     <meta name="application-name" content="Story App">
     
     <!-- Manifest -->
-    <link rel="manifest" href="/public/manifest.json">
+    <link rel="manifest" href="/manifest.json">
     
     <!-- Icons -->
-    <link rel="icon" type="image/svg+xml" href="/public/favicon.svg">
-    <link rel="apple-touch-icon" href="/public/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/public/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/public/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="167x167" href="/public/icon-192x192.png">
+    <link rel="icon" type="image/png" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="/icon-192x192.png">
     
     <!-- Preload critical resources -->
     <link rel="preload" href="/src/styles/main.css" as="style">
@@ -140,7 +140,7 @@
         <header class="header">
             <div class="container">
                 <div class="logo">
-                    <img src="/public/favicon.png" alt="Story App" class="logo-img" 
+                    <img src="/icon-192x192.png" alt="Story App" class="logo-img" 
                          onerror="this.style.display='none'; this.nextElementSibling.style.display='inline';">
                     <span class="logo-text">Story App</span>
                 </div>
@@ -324,37 +324,6 @@
         
         // Initial status check
         updateOnlineStatus();
-        
-        // Performance monitoring
-        if ('performance' in window) {
-            window.addEventListener('load', function() {
-                setTimeout(function() {
-                    const perfData = performance.getEntriesByType('navigation')[0];
-                    console.log('Page load time:', perfData.loadEventEnd - perfData.loadEventStart, 'ms');
-                }, 0);
-            });
-        }
-        
-        // Prevent zoom on iOS
-        document.addEventListener('gesturestart', function(e) {
-            e.preventDefault();
-        });
-        
-        // Prevent double-tap zoom
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = (new Date()).getTime();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
-            }
-            lastTouchEnd = now;
-        }, false);
-    </script>
-    
-    <!-- Analytics placeholder -->
-    <script>
-        // Add analytics code here if needed
-        console.log('Story App loaded successfully');
     </script>
 </body>
 </html>
