@@ -103,55 +103,94 @@ class App {
     let deferredPrompt = null
 
     window.addEventListener("beforeinstallprompt", (e) => {
-      console.log("🔥 Install prompt event captured")
       e.preventDefault()
       deferredPrompt = e
       this.showInstallBanner()
     })
 
-    // Install button handler - using event delegation
-    document.addEventListener("click", (e) => {
-      if (e.target && e.target.id === "install-app-btn") {
-        e.preventDefault()
-        e.stopPropagation()
-        console.log("📱 Install button clicked")
+    // Install button handler
+    document.getElementById("install-app-btn")?.addEventListener("click", async () => {
+      if (deferredPrompt) {
+        deferredPrompt.prompt()
+        const { outcome } = await deferredPrompt.userChoice
 
-        if (deferredPrompt) {
-          deferredPrompt.prompt()
-
-          deferredPrompt.userChoice.then((choiceResult) => {
-            console.log("User choice:", choiceResult.outcome)
-            if (choiceResult.outcome === "accepted") {
-              console.log("📱 User accepted the install prompt")
-              this.showMessage("App berhasil diinstall! 🎉", "success")
-            } else {
-              console.log("📱 User dismissed the install prompt")
-            }
-            deferredPrompt = null
-            this.hideInstallBanner()
-          })
-        } else {
-          console.log("❌ No install prompt available")
-          this.hideInstallBanner()
+        if (outcome === "accepted") {
+          console.log("📱 User accepted the install prompt")
         }
+
+        deferredPrompt = null
+        this.hideInstallBanner()
       }
     })
 
-    // Dismiss button handler - using event delegation
-    document.addEventListener("click", (e) => {
-      if (e.target && e.target.id === "dismiss-install-btn") {
-        e.preventDefault()
-        e.stopPropagation()
-        console.log("❌ Dismiss button clicked")
-        this.hideInstallBanner()
-      }
+    // Dismiss button handler
+    document.getElementById("dismiss-install-btn")?.addEventListener("click", () => {
+      this.hideInstallBanner()
     })
 
     // Check if already installed
     window.addEventListener("appinstalled", () => {
       console.log("📱 PWA was installed")
       this.hideInstallBanner()
-      deferredPrompt = null
+    })
+  }
+
+  setupPWAFeatureButtons() {
+    const pushNotificationBtn = document.getElementById("push-notification-btn")
+    const offlineModeBtn = document.getElementById("offline-mode-btn")
+    const syncDataBtn = document.getElementById("sync-data-btn")
+
+    // Push notification toggle
+    pushNotificationBtn?.addEventListener("click", async () => {
+      if (!this.authModel.isAuthenticated()) {
+        this.showMessage("Silakan login terlebih dahulu untuk mengaktifkan notifikasi", "error")
+        return
+      }
+
+      const isSubscribed = await PushNotificationHelper.getSubscriptionStatus()
+
+      if (isSubscribed) {
+        await PushNotificationHelper.unsubscribe()
+        pushNotificationBtn.classList.remove("active")
+        this.showMessage("Notifikasi push dinonaktifkan", "success")
+      } else {
+        const permission = await PushNotificationHelper.requestPermission()
+        if (permission) {
+          await PushNotificationHelper.subscribe()
+          pushNotificationBtn.classList.add("active")
+          this.showMessage("Notifikasi push diaktifkan! 🔔", "success")
+
+          // Show test notification
+          await PushNotificationHelper.showTestNotification()
+        } else {
+          this.showMessage("Izin notifikasi ditolak", "error")
+        }
+      }
+    })
+
+    // Offline mode info
+    offlineModeBtn?.addEventListener("click", () => {
+      this.showOfflineInfo()
+    })
+
+    // Sync data manually
+    syncDataBtn?.addEventListener("click", async () => {
+      if (navigator.onLine) {
+        syncDataBtn.textContent = "🔄 Syncing..."
+        syncDataBtn.disabled = true
+
+        try {
+          await OfflineManager.forcSync()
+          this.showMessage("Data berhasil disinkronkan! ✅", "success")
+        } catch (error) {
+          this.showMessage("Gagal menyinkronkan data", "error")
+        } finally {
+          syncDataBtn.textContent = "🔄 Sync Data"
+          syncDataBtn.disabled = false
+        }
+      } else {
+        this.showMessage("Tidak ada koneksi internet", "error")
+      }
     })
   }
 
@@ -159,8 +198,6 @@ class App {
     const banner = document.getElementById("pwa-install-banner")
     if (banner) {
       banner.classList.add("show")
-      document.body.classList.add("banner-shown")
-      console.log("📱 Install banner shown")
     }
   }
 
@@ -168,8 +205,6 @@ class App {
     const banner = document.getElementById("pwa-install-banner")
     if (banner) {
       banner.classList.remove("show")
-      document.body.classList.remove("banner-shown")
-      console.log("📱 Install banner hidden")
     }
   }
 
