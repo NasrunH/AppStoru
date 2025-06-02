@@ -3,21 +3,27 @@ const CACHE_NAME = "story-app-v1"
 const STATIC_CACHE = "story-app-static-v1"
 const DYNAMIC_CACHE = "story-app-dynamic-v1"
 
-// Static assets to cache
+// Static assets to cache - Path yang benar tanpa ./public/
 const STATIC_ASSETS = [
   "/",
-  "/index.html",
-  "/src/app.js",
-  "/src/router.js",
-  "/src/styles/main.css",
-  "/src/utils/helpers.js",
-  "/src/utils/maps.js",
-  "/src/utils/indexedDB.js",
-  "/src/utils/pushNotification.js",
-  "/src/utils/offlineManager.js",
-  "/src/models/AuthModel.js",
-  "/src/models/StoryModel.js",
+  "./index.html",
+  "./src/app.js",
+  "./src/router.js",
+  "./src/styles/main.css",
+  "./src/utils/helpers.js",
+  "./src/utils/maps.js",
+  "./src/utils/indexedDB.js",
+  "./src/utils/pushNotification.js",
+  "./src/utils/offlineManager.js",
+  "./src/models/AuthModel.js",
+  "./src/models/StoryModel.js",
   "/manifest.json",
+  "/android-icon-192x192.png",
+  "/android-icon-144x144.png",
+  "/android-icon-96x96.png",
+  "/android-icon-72x72.png",
+  "/favicon.ico",
+  "/favicon.png",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css",
   "https://unpkg.com/leaflet@1.9.4/dist/leaflet.js",
 ]
@@ -194,8 +200,8 @@ self.addEventListener("push", (event) => {
   let notificationData = {
     title: "Story App",
     body: "Ada cerita baru untuk Anda!",
-    icon: "/icon-192x192.png",
-    badge: "/icon-72x72.png",
+    icon: "/android-icon-192x192.png",
+    badge: "/android-icon-72x72.png",
     tag: "story-notification",
     data: {
       url: "/",
@@ -222,12 +228,12 @@ self.addEventListener("push", (event) => {
       {
         action: "view",
         title: "Lihat Cerita",
-        icon: "/icon-192x192.png",
+        icon: "/android-icon-192x192.png",
       },
       {
         action: "close",
         title: "Tutup",
-        icon: "/icon-192x192.png",
+        icon: "/android-icon-192x192.png",
       },
     ],
   }

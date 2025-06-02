@@ -17,30 +17,42 @@
     <meta name="application-name" content="Story App">
     
     <!-- Manifest -->
-    <link rel="manifest" href="/manifest.json">
+    <link rel="manifest" href="./public/manifest.json">
     
-    <!-- Icons - Corrected paths -->
-    <link rel="icon" type="image/png" href="/icon-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/icon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/icon-72x72.png" sizes="72x72">
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="./public/favicon.ico">
+    <link rel="icon" type="image/png" href="./public/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="./public/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="./public/favicon-96x96.png" sizes="96x96">
+    
+    <!-- Android Icons -->
+    <link rel="icon" type="image/png" href="./public/android-icon-36x36.png" sizes="36x36">
+    <link rel="icon" type="image/png" href="./public/android-icon-48x48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="./public/android-icon-72x72.png" sizes="72x72">
+    <link rel="icon" type="image/png" href="./public/android-icon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="./public/android-icon-144x144.png" sizes="144x144">
+    <link rel="icon" type="image/png" href="./public/android-icon-192x192.png" sizes="192x192">
     
     <!-- Apple Touch Icons -->
-    <link rel="apple-touch-icon" sizes="72x72" href="/icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="96x96" href="/icon-96x96.png">
-    <link rel="apple-touch-icon" sizes="128x128" href="/icon-128x128.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="/icon-192x192.png">
-    <link rel="apple-touch-icon" sizes="384x384" href="/icon-384x384.png">
-    <link rel="apple-touch-icon" sizes="512x512" href="/icon-512x512.png">
+    <link rel="apple-touch-icon" sizes="57x57" href="./public/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="./public/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="./public/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="./public/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="./public/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="./public/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="./public/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="./public/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="./public/apple-icon-180x180.png">
+    <link rel="apple-touch-icon-precomposed" href="./public/apple-icon-precomposed.png">
     
     <!-- Microsoft Tiles -->
     <meta name="msapplication-TileColor" content="#667eea">
-    <meta name="msapplication-TileImage" content="/icon-144x144.png">
+    <meta name="msapplication-TileImage" content="./public/ms-icon-144x144.png">
+    <meta name="msapplication-config" content="./public/browserconfig.xml">
     
     <!-- Preload critical resources -->
-    <link rel="preload" href="/src/styles/main.css" as="style">
-    <link rel="preload" href="/src/app.js" as="script">
+    <link rel="preload" href="./src/styles/main.css" as="style">
+    <link rel="preload" href="./src/app.js" as="script">
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -48,7 +60,7 @@
           crossorigin=""/>
     
     <!-- Main CSS -->
-    <link rel="stylesheet" href="/src/styles/main.css">
+    <link rel="stylesheet" href="./src/styles/main.css">
     
     <!-- Critical CSS for preventing layout shifts -->
     <style>
@@ -184,9 +196,9 @@
         <header class="header">
             <div class="container">
                 <div class="logo">
-                    <!-- Corrected logo path -->
+                    <!-- Logo dengan nama file yang benar -->
                     <img 
-                        src="/icon-192x192.png" 
+                        src="./public/android-icon-192x192.png" 
                         alt="Story App" 
                         class="logo-img"
                         onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
@@ -288,23 +300,26 @@
             crossorigin=""></script>
     
     <!-- Main App Script -->
-    <script type="module" src="/src/app.js"></script>
+    <script type="module" src="./src/app.js"></script>
     
     <!-- Service Worker Registration (Fallback) -->
     <script>
-        // Logo fallback handler with correct paths
+        // Logo fallback handler dengan nama file yang benar
         function setupLogoFallback() {
             const logoImg = document.querySelector('.logo-img');
             const logoIcon = document.querySelector('.logo-icon');
             
             if (logoImg && logoIcon) {
-                // Try alternative paths in public folder
+                // Try alternative paths dengan nama file yang benar
                 const altPaths = [
-                    '/icon-192x192.png',
-                    '/icon-144x144.png',
-                    '/icon-128x128.png',
-                    '/icon-96x96.png',
-                    '/icon-72x72.png'
+                    './public/android-icon-192x192.png',
+                    './public/android-icon-144x144.png',
+                    './public/android-icon-96x96.png',
+                    './public/android-icon-72x72.png',
+                    './public/apple-icon-180x180.png',
+                    './public/apple-icon-152x152.png',
+                    './public/favicon-96x96.png',
+                    './public/favicon.png'
                 ];
                 
                 let currentIndex = 0;
@@ -368,7 +383,7 @@
         // Service Worker registration fallback
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
-                navigator.serviceWorker.register('/sw.js')
+                navigator.serviceWorker.register('./public/sw.js')
                     .then(function(registration) {
                         console.log('SW registered: ', registration);
                     })

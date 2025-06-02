@@ -225,8 +225,8 @@ class PushNotificationHelper {
 
       await registration.showNotification("Story App - Notifikasi Aktif! 🎉", {
         body: "Push notifications berhasil diaktifkan untuk Story App Dicoding",
-        icon: "/icon-192x192.png",
-        badge: "/icon-72x72.png",
+        icon: "/android-icon-192x192.png",
+        badge: "/android-icon-72x72.png",
         tag: "test-notification",
         vibrate: [100, 50, 100],
         data: {
@@ -236,12 +236,12 @@ class PushNotificationHelper {
           {
             action: "view",
             title: "Buka App",
-            icon: "/icon-192x192.png",
+            icon: "/android-icon-192x192.png",
           },
           {
             action: "close",
             title: "Tutup",
-            icon: "/icon-192x192.png",
+            icon: "/android-icon-192x192.png",
           },
         ],
       })
