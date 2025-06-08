@@ -91,12 +91,19 @@ class PushNotificationHelper {
         return false
       }
 
+      // Helper to encode ArrayBuffer to URL-safe Base64 string
+      // This function is new and addresses the issue.
+      const encodeKey = (key) => {
+        const base64 = btoa(String.fromCharCode.apply(null, new Uint8Array(key)));
+        return base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      };
+
       // Convert subscription to the format expected by the API
       const subscriptionData = {
         endpoint: subscription.endpoint,
         keys: {
-          p256dh: subscription.keys.p256dh,
-          auth: subscription.keys.auth,
+          p256dh: encodeKey(subscription.keys.p256dh), // Apply encoding here
+          auth: encodeKey(subscription.keys.auth),     // Apply encoding here
         },
       }
 
