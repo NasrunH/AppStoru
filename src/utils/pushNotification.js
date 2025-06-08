@@ -102,8 +102,8 @@ class PushNotificationHelper {
       const subscriptionData = {
         endpoint: subscription.endpoint,
         keys: {
-          p256dh: encodeKey(subscription.keys.p256dh), // Apply encoding here
-          auth: encodeKey(subscription.keys.auth),     // Apply encoding here
+          p256dh: encodeKey(subscription.getKey('p256dh')), // Apply encoding here
+          auth: encodeKey(subscription.getKey('auth')),     // Apply encoding here
         },
       }
 

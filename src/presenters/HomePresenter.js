@@ -147,7 +147,7 @@ export class HomePresenter {
             if (this.stories.length > 0) {
               try {
                 for (const story of this.stories) {
-                  await IndexedDBHelper.saveStory({
+                  await IndexedDBHelper.addStory({ // Changed from saveStory to addStory
                     ...story,
                     isOffline: false,
                   })
