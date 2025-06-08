@@ -1,0 +1,21 @@
+{
+  "name": "storyappdicoding",
+  "version": "1.0.0",
+  "description": "Story App MVP - Dicoding Submission",
+  "main": "src/app.js",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 3000",
+    "build": "vite build",
+    "preview": "vite preview",
+    "serve": "vite --host 0.0.0.0 --port 3000",
+    "start": "vite --host 0.0.0.0 --port 3000"
+  },
+  "keywords": ["story", "app", "dicoding", "javascript", "spa"],
+  "author": "Nasrun",
+  "license": "uty",
+  "devDependencies": {
+    "vite": "^5.0.0"
+  },
+  "dependencies": {}
+}
