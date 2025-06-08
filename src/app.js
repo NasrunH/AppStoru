@@ -35,22 +35,22 @@ class App {
 
   async initializePWA() {
     try {
-      // Register Service Worker
-      if ("serviceWorker" in navigator) {
-        const registration = await navigator.serviceWorker.register("/sw.js")
-        console.log("📱 Service Worker registered:", registration.scope)
-
-        // Handle service worker updates
-        registration.addEventListener("updatefound", () => {
-          const newWorker = registration.installing
-          newWorker.addEventListener("statechange", () => {
-            if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
-              console.log("🔄 New version available, please refresh")
-              this.showUpdateAvailable()
-            }
-          })
-        })
-      }
+      // Register Service Worker (DIHAPUS - ditangani oleh vite-plugin-pwa)
+      // if ("serviceWorker" in navigator) {
+      //   const registration = await navigator.serviceWorker.register("/sw.js")
+      //   console.log("📱 Service Worker registered:", registration.scope)
+      //
+      //   // Handle service worker updates
+      //   registration.addEventListener("updatefound", () => {
+      //     const newWorker = registration.installing
+      //     newWorker.addEventListener("statechange", () => {
+      //       if (newWorker.state === "installed" && navigator.serviceWorker.controller) {
+      //         console.log("🔄 New version available, please refresh")
+      //         this.showUpdateAvailable()
+      //       }
+      //     })
+      //   })
+      // }
 
       // Initialize IndexedDB
       await IndexedDBHelper.openDB()
